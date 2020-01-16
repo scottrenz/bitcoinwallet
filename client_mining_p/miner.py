@@ -1,3 +1,4 @@
+import time
 import hashlib
 import requests
 
@@ -52,6 +53,7 @@ if __name__ == '__main__':
     coins = 0
     # Run forever until interrupted
     while True:
+        start_time = time.time()
         r = requests.get(url=node + "/last_block")
         # Handle non-json response
         try:
@@ -81,3 +83,6 @@ if __name__ == '__main__':
             print("coins mined so far:" + str(coins), data)
         else:
             print(data)
+        end_time = time.time()
+        print (f"runtime: {end_time - start_time} seconds")
+    
