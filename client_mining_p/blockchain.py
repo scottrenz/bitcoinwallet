@@ -117,23 +117,26 @@ def mine():
         data = request.get_json()
         required = ['proof', 'id']
 
-        if not all(k in data for k in required):
-            response = {'message': "Missing Values"}
-            return jsonify(response), 400
+        if data is not None:
+            if not all(k in data for k in required):
+                response = {'message': "Missing Values"}
+                return jsonify(response), 400
 
-        proof = data.get('proof')
-        id = data.get('id')
+        
+            proof = data.get('proof')
+            id = data.get('id')
 
     # Run the proof of work algorithm to get the next proof
     # proof = blockchain.proof_of_work(blockchain.last_block)
     # Forge the new Block by adding it to the chain with the proof
-        previous_hash = blockchain.hash(blockchain.last_block)
-        block = blockchain.new_block(proof, previous_hash)
-        response = {
-        'new_block': block
-        }
+            previous_hash = blockchain.hash(blockchain.last_block)
+            block = blockchain.new_block(proof, previous_hash)
+            response = {
+            'new_block': block
+            }
     
-        return jsonify(response), 200
+            return jsonify(response), 200
+        return jsonify({"get": "get"}), 200
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
@@ -148,8 +151,8 @@ def full_chain():
 def last_chain():
     response = {
         # TODO: Return the chain and its current length
-        'length': len(blockchain.chain),
-        'chain': blockchain.chain[len(blockchain.chain) - 1]
+        # 'length': len(blockchain.chain),
+        'block': blockchain.chain[len(blockchain.chain) - 1]
     }
     return jsonify(response), 200
 
