@@ -114,15 +114,17 @@ blockchain = Blockchain()
 
 @app.route('/mine', methods=['GET','POST'])
 def mine():
+    if request.method == 'POST':
         data = request.get_json()
         required = ['proof', 'id']
 
-        if data is not None:
+        if data is None:
+            response = {'message': "Missing Values"}
+            return jsonify(response), 400
+        else:
             if not all(k in data for k in required):
                 response = {'message': "Missing Values"}
                 return jsonify(response), 400
-
-        
             proof = data.get('proof')
             id = data.get('id')
 
@@ -136,7 +138,7 @@ def mine():
             }
     
             return jsonify(response), 200
-        return jsonify({"get": "get"}), 200
+    return jsonify({"get": "get"}), 200
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
