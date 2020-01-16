@@ -66,6 +66,7 @@ if __name__ == '__main__':
 
         # TODO: Get the block from `data` and use it to look for a new proof
         # new_proof = ???
+        # breakpoint()
         block = data.get('block')
 
         new_proof = proof_of_work(block)
